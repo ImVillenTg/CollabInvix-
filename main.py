@@ -118,11 +118,6 @@ async def account_login(bot: Client, m: Message):
     else:
         CR = raw_text3
 
-    await editable.edit("**Enter Your Name for File Name**")
-    input9: Message = await bot.listen(editable.chat.id)
-    raw_text9 = input9.text
-    await input9.delete(True)
-
     await editable.edit("Now send the **Thumb url**\nEg : ```https://telegra.ph/file/0633f8b6a6f110d34f044.jpg```\n\nor Send `no`")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
@@ -161,7 +156,7 @@ async def account_login(bot: Client, m: Message):
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace("pdf", " PDF").replace("pdf-2", " PDF-2").replace(".", "").replace("'", "").replace("(perospero)", "").strip()
-            name = f'{raw_text9} {name1[:90]}'
+            name = f'REXODAS {name1[:90]} Join @Rexodas2023'
 
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
@@ -174,7 +169,7 @@ async def account_login(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:                               
-                cc = f'{str(count).zfill(3)}.{name1} BY {raw_text9}.mkv\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc = f'{str(count).zfill(3)}.{name1}.mkv\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url:
                     try:
