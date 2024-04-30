@@ -155,7 +155,7 @@ async def account_login(bot: Client, m: Message):
              id =  url.split("/")[-2]
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
 
-            name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace("pdf", " PDF").replace("pdf-2", " PDF-2").replace(".", "").replace("'", "").replace("(perospero)", "").strip()
+            name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace(".pdf", " `(PDF)`").replace(".pdf-2", " `(PDF-2)`").replace("'", "").replace("(perospero)", "`REXODAS`").strip()
             name = f'REXODAS {name1[:90]} Join @Rexodas2023'
 
             if "youtu" in url:
