@@ -106,40 +106,87 @@ async def download_video(url, cmd, name):
         return os.path.isfile.splitext[0] + "." + "mp4"
 
 
+async def add_watermark(filename, watermark_text):
+    try:
+        # Add watermark using ffmpeg
+        subprocess.run(
+            f'ffmpeg -i "{filename}" -vf "drawtext=text=\'{watermark_text}\':x=(w-text_w-10):y=(h-text_h-10):fontsize=24:fontcolor=white@0.5:shadowcolor=black:shadowx=2:shadowy=2" -codec:a copy "{filename}_watermarked.mp4"',
+            shell=True,
+            check=True
+        )
+        return f"{filename}_watermarked.mp4"
+    except subprocess.CalledProcessError as e:
+        print(f"Error adding watermark: {e}")
+        return None
 
-async def send_vid(bot: Client, m: Message, cc, filename, thumb, name):
+async def send_vid(bot, m, cc, filename, thumb, name):
+    # Generate watermark text
+    watermark_text = "DRAGO"
 
-    subprocess.run(
-        f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"',
-        shell=True)
-  # await prog.delete (True)
-    reply = await m.reply_text(f"**Downloading Over !**\n\n**Uploading** 📥To Telegram\n\n𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 𝐑𝐄𝐗𝐎𝐃𝐀𝐒 🇮🇳")
+    # Add watermark to the video
+    watermarked_filename = await add_watermark(filename, watermark_text)
+    if watermarked_filename is None:
+        await m.reply_text("Failed to add watermark.")
+        return
+
+    # Get thumbnail or use default
     try:
         if thumb == "no":
-            thumbnail = f"{filename}.jpg"
+            subprocess.run(
+                f'ffmpeg -i "{watermarked_filename}" -ss 00:01:00 -vframes 1 "{watermarked_filename}.jpg"',
+                shell=True,
+                check=True
+            )
+            thumbnail = f"{watermarked_filename}.jpg"
         else:
             thumbnail = thumb
-    except Exception as e:
-        await m.reply_text(str(e))
+    except subprocess.CalledProcessError as e:
+        await m.reply_text(f"Error generating thumbnail: {e}")
+        return
 
-    dur = int(duration(filename))
+    # Get duration of the video
+    dur = int(duration(watermarked_filename))
 
     start_time = time.time()
 
+    # Send video with watermark
+    reply = await m.reply_text(f"**Downloading Over !**\n\n**Uploading** 📥To Telegram\n\n𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 𝐑𝐄𝐗𝐎𝐃𝐀𝐒 🇮🇳")
     try:
-        copy = await bot.send_video(chat_id=m.chat.id,video=filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur,progress=progress_bar,progress_args=(reply,start_time))
-        await copy.copy(chat_id = LOG) 
-    except TimeoutError:
-        await asyncio.sleep(5) 
-        copy = await bot.send_video(chat_id=m.chat.id,video=filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur,progress=progress_bar,progress_args=(reply,start_time))
-        await copy.copy(chat_id = LOG)       
-    except Exception:
-        copy = await bot.send_video(chat_id=m.chat.id,video=filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur,progress=progress_bar,progress_args=(reply,start_time))
-        await copy.copy(chat_id = LOG)
+        copy = await bot.send_video(
+            chat_id=m.chat.id,
+            video=watermarked_filename,
+            caption=cc,
+            supports_streaming=True,
+            height=720,
+            width=1280,
+            thumb=thumbnail,
+            duration=dur,
+            progress=progress_bar,
+            progress_args=(reply, start_time)
+        )
+        await copy.copy(chat_id=LOG)
+    except telethon.errors.TimeoutError:
+        await asyncio.sleep(5)
+        copy = await bot.send_video(
+            chat_id=m.chat.id,
+            video=watermarked_filename,
+            caption=cc,
+            supports_streaming=True,
+            height=720,
+            width=1280,
+            thumb=thumbnail,
+            duration=dur,
+            progress=progress_bar,
+            progress_args=(reply, start_time)
+        )
+        await copy.copy(chat_id=LOG)
+    except Exception as e:
+        await m.reply_text(f"Failed to send video: {str(e)}")
 
-
-    os.remove(filename)
-
-    os.remove(f"{filename}.jpg")
+    # Clean up temporary files
+    os.remove(watermarked_filename)
+    os.remove(f"{watermarked_filename}.jpg")
     await reply.delete(True)
-  # await prog.delete(True)
+
+# Example usage:
+# await send_vid(bot, m, "Video caption", "input_video.mp4", "no", "Test Video")
