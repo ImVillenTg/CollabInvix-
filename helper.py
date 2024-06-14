@@ -13,7 +13,6 @@ import aiofiles
 from pyrogram.types import Message
 from pyrogram import Client, filters
 
-
 def duration(filename):
     result = subprocess.run([
         "ffprobe", "-v", "error", "-show_entries", "format=duration", "-of",
@@ -22,7 +21,6 @@ def duration(filename):
                             stdout=subprocess.PIPE,
                             stderr=subprocess.STDOUT)
     return float(result.stdout)
-
 
 async def download(url, name):
     ka = f'{name}.pdf'
@@ -33,8 +31,6 @@ async def download(url, name):
                 await f.write(await resp.read())
                 await f.close()
     return ka
-
-
 
 async def run(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -50,7 +46,6 @@ async def run(cmd):
     if stderr:
         return f'[stderr]\n{stderr.decode()}'
 
-
 def old_download(url, file_name, chunk_size=1024 * 10):
     if os.path.exists(file_name):
         os.remove(file_name)
@@ -61,7 +56,6 @@ def old_download(url, file_name, chunk_size=1024 * 10):
                 fd.write(chunk)
     return file_name
 
-
 def human_readable_size(size, decimal_places=2):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB', 'PB']:
         if size < 1024.0 or unit == 'PB':
@@ -69,13 +63,11 @@ def human_readable_size(size, decimal_places=2):
         size /= 1024.0
     return f"{size:.{decimal_places}f} {unit}"
 
-
 def time_name():
     date = datetime.date.today()
     now = datetime.datetime.now()
     current_time = now.strftime("%H%M%S")
     return f"{date} {current_time}.mp4"
-
 
 async def download_video(url, cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
@@ -105,16 +97,14 @@ async def download_video(url, cmd, name):
     except FileNotFoundError as exc:
         return os.path.isfile.splitext[0] + "." + "mp4"
 
-
-
 async def send_vid(bot: Client, m: Message, cc, filename, thumb, name):
 
-     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -filter_complex "drawtext=text=\'@RolexEmpire\':fontcolor=grey@0.5:fontsize=(w/20):x=(w-text_w)/2:y=h-th-10+2:shadowcolor=white:shadowx=2:shadowy=2" -vframes 1 "{filename}.jpg"', shell=True)
+    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -filter_complex "drawtext=text=\'@RolexEmpire\':fontcolor=grey@0.5:fontsize=(w/20):x=(w-text_w)/2:y=h-th-10+2:shadowcolor=white:shadowx=2:shadowy=2" -vframes 1 "{filename}.jpg"', shell=True)
     #subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"',
-        shell=True)
+    #    shell=True)
     #subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -filter_complex "drawtext=text=\'Rexodas\':fontcolor=black@0.5:fontsize=(w/20):x=10:y=h-th-10+2:shadowcolor=white:shadowx=2:shadowy=2" -vframes 1 "{filename}.jpg"', shell=True)
-    
-  # await prog.delete (True)
+
+    # await prog.delete (True)
     reply = await m.reply_text(f"**Downloading Over !**\n\n**Uploading** 📥To Telegram\n\n𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 𝐑𝐄𝐗𝐎𝐃𝐀𝐒 🇮🇳")
     try:
         if thumb == "no":
@@ -139,9 +129,8 @@ async def send_vid(bot: Client, m: Message, cc, filename, thumb, name):
         copy = await bot.send_video(chat_id=m.chat.id,video=filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur,progress=progress_bar,progress_args=(reply,start_time))
         await copy.copy(chat_id = LOG)
 
-
     os.remove(filename)
-
     os.remove(f"{filename}.jpg")
     await reply.delete(True)
   # await prog.delete(True)
+    
