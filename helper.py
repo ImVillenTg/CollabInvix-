@@ -54,16 +54,19 @@ async def modify_video(file):
     
     # Download credit_video.mp4 if it doesn't exist
     if not os.path.exists(credit_video_path):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(credit_video_url) as resp:
-                if resp.status == 200:
-                    f = await aiofiles.open(credit_video_path, mode='wb')
-                    await f.write(await resp.read())
-                    await f.close()
-    
+        await download_file(credit_video_url, credit_video_path)
+
     output_file = "output.mp4"
-    cmd = f'ffmpeg -i "concat:{credit_video_path}|{file}" -c copy {output_file}'
+    concat_file = "concat_list.txt"
+
+    # Create a file list for ffmpeg to concatenate
+    with open(concat_file, 'w') as f:
+        f.write(f"file '{os.path.abspath(credit_video_path)}'\n")
+        f.write(f"file '{os.path.abspath(file)}'\n")
+
+    cmd = f'ffmpeg -f concat -safe 0 -i {concat_file} -c copy {output_file}'
     await run(cmd)
+    
     return output_file
 
 async def download_video(url, cmd, name):
