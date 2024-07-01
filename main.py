@@ -206,7 +206,6 @@ async def account_login(bot: Client, m: Message):
 
             except Exception as e:
                 await m.reply_text(f"**This #Failed File is not Counted**\n**Name** =>> `{name}`\n**Link** =>> `{url}`\n\n ** fail reason »** {e}")
-                count += 1
                 continue
 
     except Exception as e:
