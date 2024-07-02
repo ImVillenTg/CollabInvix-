@@ -77,7 +77,7 @@ async def account_login(bot: Client, m: Message):
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
   
-    b_name = file_name
+    b_name = file_name.replace("_", "")
 
     await editable.edit("**Enter resolution**")
     input2: Message = await bot.listen(editable.chat.id)
