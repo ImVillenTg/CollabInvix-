@@ -23,18 +23,32 @@ def duration(filename):
                             stderr=subprocess.STDOUT)
     return float(result.stdout)
 
-
 async def download(url, name):
     ka = f'{name}.pdf'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            if resp.status == 200:
-                f = await aiofiles.open(ka, mode='wb')
-                await f.write(await resp.read())
-                await f.close()
-    return ka
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, allow_redirects=True) as resp:
+                if resp.status == 200:
+                    f = await aiofiles.open(ka, mode='wb')
+                    await f.write(await resp.read())
+                    await f.close()  # Manually closing the file
+                    return ka
+    except Exception as e:
+        print("असिंक्रोनस डाउनलोड असफल रहा, अब सिंक्रोनस तरीके से कोशिश करेंगे। त्रुटि:", e)
 
-
+    # सिंक्रोनस फॉलबैक
+    try:
+        r = requests.get(url, allow_redirects=True)
+        if r.status_code != 200:
+            print("त्रुटि:", url)
+            return None
+        with open(ka, "wb") as f:
+            f.write(r.content)
+            f.close()  # Manually closing the file
+        print("सिंक्रोनस तरीके से डाउनलोड किया गया:", ka)
+        return ka
+    except Exception as e:
+        print("सिंक्रोनस डाउनलोड भी असफल रहा। त्रुटि:", e)
 
 async def run(cmd):
     proc = await asyncio.create_subprocess_shell(
