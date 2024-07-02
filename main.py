@@ -76,16 +76,8 @@ async def account_login(bot: Client, m: Message):
     await editable.edit(f"Total links found are **{len(links)}**\n\nSend From where you want to download initial is **1**")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
-    await input0.delete(True)
-
-    await editable.edit("**Enter Batch Name or send d for grabing from text filename.**")
-    input1: Message = await bot.listen(editable.chat.id)
-    raw_text0 = input1.text
-    await input1.delete(True)
-    if raw_text0 == 'd':
-        b_name = file_name
-    else:
-        b_name = raw_text0
+  
+    b_name = file_name
 
     await editable.edit("**Enter resolution**")
     input2: Message = await bot.listen(editable.chat.id)
@@ -108,16 +100,9 @@ async def account_login(bot: Client, m: Message):
             res = "UN"
     except Exception:
             res = "UN"
-    
-    await editable.edit("**Enter Your Name or send `de` for use default**")
-    input3: Message = await bot.listen(editable.chat.id)
-    raw_text3 = input3.text
-    await input3.delete(True)
-    if raw_text3 == 'de':
-        CR = credit
-    else:
-        CR = raw_text3
-
+      
+    CR = credit
+  
     await editable.edit("Now send the **Thumb url**\nEg : ```https://telegra.ph/file/0633f8b6a6f110d34f044.jpg```\n\nor Send `no`")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
@@ -168,10 +153,11 @@ async def account_login(bot: Client, m: Message):
             else:
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
-            try:                               
-                cc = f'{str(count).zfill(3)}.{name1} {res}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+            try: 
+                cc = f'{str(count).zfill(3)}. {name1} {res}.mp4\n\n**Batch :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc1 = f'{str(count).zfill(3)}. {name1}.pdf\n\n**Batch :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url or ".pdf" in url:
+                    thumb = thumb if thumb else None
                     try:
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
