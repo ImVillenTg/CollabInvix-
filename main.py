@@ -171,7 +171,7 @@ async def account_login(bot: Client, m: Message):
             try:                               
                 cc = f'{str(count).zfill(3)}.{name1}.mkv\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                if "drive" in url:
+                if "drive" in url or ".pdf" in url:
                     try:
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
@@ -179,19 +179,6 @@ async def account_login(bot: Client, m: Message):
                         count+=1
                         os.remove(ka)
                         time.sleep(1)
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        continue
-                elif ".pdf" in url:
-                    try:
-                        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_document(chat_id=m.chat.id,document=f'{name}.pdf', caption=cc1, thumb=thumb)
-                        await copy.copy(chat_id = -1001296608859)
-                        count += 1
-                        os.remove(f'{name}.pdf')
                     except FloodWait as e:
                         await m.reply_text(str(e))
                         time.sleep(e.x)
