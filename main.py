@@ -83,7 +83,7 @@ async def account_login(bot: Client, m: Message):
     raw_text0 = input1.text
     await input1.delete(True)
     if raw_text0 == 'd':
-        b_name = file_name.replace("_", "")
+        b_name = file_name.replace("_", " ")
     else:
         b_name = raw_text0
 
