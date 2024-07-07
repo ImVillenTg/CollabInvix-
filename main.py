@@ -141,6 +141,31 @@ async def account_login(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
+            
+
+
+             if "tencdn.classplusapp" in url and "videos.classplusapp" in url and "media-cdn.classplusapp.com" in url:
+               r1 = requests.get('https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': '#token'})
+               u = r1.json()['url']
+               r2 = requests.get(f"{u}", headers={"X-CDN-Tag": "empty"}).text
+               pattern = r'^(\d+)/\1p\.m3u8(.*)$'
+               matches = re.findall(pattern, r2, flags=re.MULTILINE)
+               priority_order = ['720', '480', '360']
+               selected_url = None
+               for priority in priority_order:
+                   for match in matches:
+                       if match[0] == priority:
+                           selected_url = f"{match[0]}/{match[0]}p.m3u8{match[1]}"
+                           break
+
+                   if selected_url:
+                       break
+               if selected_url:
+                   url = f"{url.replace('master.m3u8', '')}{selected_url}"
+                   print(url)
+               else:
+                   print("URL does not match required domains.")
+                 
             elif 'videos.classplusapp' in url:
              url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgzNjkyMTIsIm9yZ0lkIjoyNjA1LCJ0eXBlIjoxLCJtb2JpbGUiOiI5MTcwODI3NzQyODkiLCJuYW1lIjoiQWNlIiwiZW1haWwiOm51bGwsImlzRmlyc3RMb2dpbiI6dHJ1ZSwiZGVmYXVsdExhbmd1YWdlIjpudWxsLCJjb3VudHJ5Q29kZSI6IklOIiwiaXNJbnRlcm5hdGlvbmFsIjowLCJpYXQiOjE2NDMyODE4NzcsImV4cCI6MTY0Mzg4NjY3N30.hM33P2ai6ivdzxPPfm01LAd4JWv-vnrSxGXqvCirCSpUfhhofpeqyeHPxtstXwe0'}).json()['url']
 
