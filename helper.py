@@ -34,21 +34,21 @@ async def download(url, name):
                     await f.close()  # Manually closing the file
                     return ka
     except Exception as e:
-        print("असिंक्रोनस डाउनलोड असफल रहा, अब सिंक्रोनस तरीके से कोशिश करेंगे। त्रुटि:", e)
+        print("Asynchronous download failed, Now will try synchronously. Error:", e)
 
-    # सिंक्रोनस फॉलबैक
+    # Synchronous FallBack (Rexo)
     try:
         r = requests.get(url, allow_redirects=True)
         if r.status_code != 200:
-            print("त्रुटि:", url)
+            print("Error:", url)
             return None
         with open(ka, "wb") as f:
             f.write(r.content)
             f.close()  # Manually closing the file
-        print("सिंक्रोनस तरीके से डाउनलोड किया गया:", ka)
+        print("Downloaded Synchronously:", ka)
         return ka
     except Exception as e:
-        print("सिंक्रोनस डाउनलोड भी असफल रहा। त्रुटि:", e)
+        print("Synchronous Download Failed. Error:", e)
 
 async def run(cmd):
     proc = await asyncio.create_subprocess_shell(
