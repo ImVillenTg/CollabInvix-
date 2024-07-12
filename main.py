@@ -179,12 +179,18 @@ async def account_login(bot: Client, m: Message):
                         continue
 
                 if url.endswith(".mp3"):
-                file_name = await download_mp3(url, name)
-                await bot.send_audio(m.chat.id, audio=file_name, caption=cc1)
-                await copy.copy(chat_id = -1001296608859)
-                count +=1
-                os.remove(file_name)
-              
+                   try:
+                       file_name = await download_mp3(url, name)
+                       await bot.send_audio(m.chat.id, audio=file_name, caption=cc1)
+                       await copy.copy(chat_id = -1001296608859)
+                       count +=1
+                       os.remove(file_name)
+                       time.sleep(e.x)
+                   except FloodWait as e:
+                       await m.reply_text(str(e))
+                       time.sleep(e.x)
+                       continue
+                     
                 else:
                   # prog = await m.reply_text(f"**Downloading :-**\n\n**Video Name :-** `{name}\nQuality :- {raw_text2}`\nLink :-`{url}`")
                     res_file = await helper.download_video(url, cmd, name)
