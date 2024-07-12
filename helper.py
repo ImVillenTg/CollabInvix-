@@ -92,15 +92,15 @@ def time_name():
 
 #for audio download 
 async def download_mp3(url, name):
-    file_name = f'{name}.mp3'
-    cmd = f'yt-dlp -x --audio-format mp3 -o "{file_name}" "{url}"'
+    aud = f'{name}.mp3'
+    cmd = f'yt-dlp -x --audio-format mp3 -o "{aud}" "{url}"'
     process = await asyncio.create_subprocess_shell(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = await process.communicate()
     
     if process.returncode != 0:
         raise Exception(f"yt-dlp failed: {stderr.decode().strip()}")
     
-    return file_name
+    return aud
     
 async def download_video(url, cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
