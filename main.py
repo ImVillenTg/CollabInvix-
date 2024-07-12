@@ -171,7 +171,7 @@ async def account_login(bot: Client, m: Message):
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
                         await copy.copy(chat_id = -1001296608859)
-                        count +=1
+                        count+=1
                         os.remove(ka) if os.path.exists(ka) else none
                         time.sleep(1)
                     except FloodWait as e:
@@ -181,10 +181,10 @@ async def account_login(bot: Client, m: Message):
 
                 if url.endswith(".mp3"):
                    try:
-                       file_name = await helper.download_mp3(url, name)
-                       copy = await bot.send_audio(m.chat.id, audio=file_name, caption=cc2)
+                       aud = await helper.download_mp3(url, name)
+                       copy = await bot.send_audio(m.chat.id, audio=aud, caption=cc2)
                        await copy.copy(chat_id = -1001296608859)
-                       count +=1
+                       count += 1
                        os.remove(f'{name}.mp3') if os.path.exists(f'{name}.mp3') else none
                        time.sleep(1)
                    except FloodWait as e:
