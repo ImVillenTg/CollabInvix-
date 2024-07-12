@@ -164,6 +164,7 @@ async def account_login(bot: Client, m: Message):
             try: 
                 cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc2 = f'{str(count).zfill(3)}.{name1} [Audio File].mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url or ".pdf" in url:
                     thumb = thumb if thumb else None
                     try:
@@ -171,7 +172,7 @@ async def account_login(bot: Client, m: Message):
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
                         await copy.copy(chat_id = -1001296608859)
                         count+=1
-                        os.remove(ka)
+                        os.remove(ka) if os.path.exists(ka) else none
                         time.sleep(1)
                     except FloodWait as e:
                         await m.reply_text(str(e))
@@ -181,7 +182,7 @@ async def account_login(bot: Client, m: Message):
                 if url.endswith(".mp3"):
                    try:
                        file_name = await helper.download_mp3(url, name)
-                       copy = await bot.send_audio(m.chat.id, audio=file_name, caption=cc1)
+                       copy = await bot.send_audio(m.chat.id, audio=file_name, caption=cc2)
                        await copy.copy(chat_id = -1001296608859)
                        count +=1
                        os.remove(file_name) if os.path.exists(file_name) else none
