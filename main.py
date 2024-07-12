@@ -180,8 +180,8 @@ async def account_login(bot: Client, m: Message):
 
                 if url.endswith(".mp3"):
                    try:
-                       file_name = await download_mp3(url, name)
-                       await bot.send_audio(m.chat.id, audio=file_name, caption=cc1)
+                       file_name = await helper.download_mp3(url, name)
+                       copy = await bot.send_audio(m.chat.id, audio=file_name, caption=cc1)
                        await copy.copy(chat_id = -1001296608859)
                        count +=1
                        os.remove(file_name)
