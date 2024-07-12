@@ -184,7 +184,7 @@ async def account_login(bot: Client, m: Message):
                        copy = await bot.send_audio(m.chat.id, audio=file_name, caption=cc1)
                        await copy.copy(chat_id = -1001296608859)
                        count +=1
-                       os.remove(file_name)
+                       os.remove(file_name) if os.path.exists(file_name) else none
                        time.sleep(1)
                    except FloodWait as e:
                        await m.reply_text(str(e))
