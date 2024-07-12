@@ -185,7 +185,7 @@ async def account_login(bot: Client, m: Message):
                        await copy.copy(chat_id = -1001296608859)
                        count +=1
                        os.remove(file_name)
-                       time.sleep(e.x)
+                       time.sleep(1)
                    except FloodWait as e:
                        await m.reply_text(str(e))
                        time.sleep(e.x)
