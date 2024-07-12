@@ -90,7 +90,17 @@ def time_name():
     current_time = now.strftime("%H%M%S")
     return f"{date} {current_time}.mp4"
 
-
+#for audio download 
+async def download_mp3(url, name):
+    file_name = f'{name}.mp3'
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            if resp.status == 200:
+                f = await aiofiles.open(file_name, mode='wb')
+                await f.write(await resp.read())
+                await f.close()
+    return file_name
+    
 async def download_video(url, cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
     global failed_counter
