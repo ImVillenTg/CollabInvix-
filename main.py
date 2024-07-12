@@ -171,7 +171,7 @@ async def account_login(bot: Client, m: Message):
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
                         await copy.copy(chat_id = -1001296608859)
-                        count+=1
+                        count +=1
                         os.remove(ka) if os.path.exists(ka) else none
                         time.sleep(1)
                     except FloodWait as e:
@@ -185,7 +185,7 @@ async def account_login(bot: Client, m: Message):
                        copy = await bot.send_audio(m.chat.id, audio=file_name, caption=cc2)
                        await copy.copy(chat_id = -1001296608859)
                        count +=1
-                       os.remove(file_name) if os.path.exists(file_name) else none
+                       os.remove(f'{name}.mp3') if os.path.exists(f'{name}.mp3') else none
                        time.sleep(1)
                    except FloodWait as e:
                        await m.reply_text(str(e))
