@@ -165,7 +165,7 @@ async def account_login(bot: Client, m: Message):
                 os.remove(aud) if os.path.exists(aud) else None
                 time.sleep(1)
             else:
-                res_file = await download_video(url, cmd, name)
+                res_file = await helper.download_video(url, cmd, name)
                 filename = res_file
                 await send_vid(bot, m, cc, filename, thumb, name)
                 count += 1
