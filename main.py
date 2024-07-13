@@ -1,14 +1,9 @@
 from pyrogram.errors.exceptions.bad_request_400 import StickerEmojiInvalid
-import requests
-import json
-import subprocess
 from pyrogram import Client, filters
 from pyrogram.types.messages_and_media import message
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, User, Message
 from pyrogram.errors import FloodWait
 from pyromod import listen
-from pyrogram.types import Message
-from pyrogram import Client, filters
 from p_bar import progress_bar
 from subprocess import getstatusoutput
 from aiohttp import ClientSession
@@ -16,7 +11,6 @@ import helper
 from logger import logging
 import time
 import asyncio
-from pyrogram.types import User, Message
 from config import *
 import sys
 import re
@@ -167,7 +161,7 @@ async def account_login(bot: Client, m: Message):
             else:
                 res_file = await helper.download_video(url, cmd, name)
                 filename = res_file
-                await send_vid(bot, m, cc, filename, thumb, name)
+                await helper.send_vid(bot, m, cc, filename, thumb, name)
                 count += 1
 
         except Exception as e:
