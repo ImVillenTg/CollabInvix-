@@ -136,10 +136,10 @@ async def account_login(bot: Client, m: Message):
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace(".", " ").replace("pdf", " (PDF)").replace("pdf-2", " (PDF-2)").replace("'", "").replace("(perospero)", "REXODAS").strip()
             name = f'By @RolexEmpire {name1[:80]}'
 
-            ytf = f"b[height<={res}][ext=mp4]/bv[height<={res}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]" if "youtu" in url else f"b[height<={res}]/bv[height<={res}]+ba/b/bv+ba"
+            ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]" if "youtu" in url else f"b[height<={raw_text2}]/bv[height<={raw_text2}]+ba/b/bv+ba"
             cmd = f'yt-dlp -o "{name}.mp4" "{url}"' if "jw-prod" in url else f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
-            cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {credit}'
+            cc = f'{str(count).zfill(3)}.{name1} {res}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {credit}'
             cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {credit}'
             cc2 = f'{str(count).zfill(3)}.{name1} [Audio File].mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {credit}'
 
