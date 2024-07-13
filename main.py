@@ -131,7 +131,7 @@ async def account_login(bot: Client, m: Message):
 
             elif 'videos.classplusapp' in url or 'media-cdn.classplusapp' in url:
                 url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={
-                    'x-access-token': 'YOUR_ACCESS_TOKEN',  # Replace with actual access token
+                    'x-access-token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6NTA5MTAzNjYsIm9yZ0lkIjo0MDU0NzMsIm9yZ0NvZGUiOiJqY3d2ayIsIm9yZ05hbWUiOiJTdXJlIDYwIEd1cnVrdWwiLCJuYW1lIjoiUmFtcGFsIiwiZW1haWwiOiJzaGFsaW5pc2hhcm1hMTUwNjhAZ21haWwuY29tIiwibW9iaWxlIjoiOTE5NTIwMDM2ODM0IiwidHlwZSI6MSwiaXNEaXkiOnRydWUsImlzSW50ZXJuYXRpb25hbCI6MCwiZGVmYXVsdExhbmd1YWdlIjoiRU4iLCJjb3VudHJ5Q29kZSI6IklOIiwidGltZXpvbmUiOiJHTVQrNTozMCIsImNvdW50cnlJU08iOiI5MSIsImlzRGl5U3ViYWRtaW4iOjAsImlhdCI6MTcyMDM3MTk2NywiZXhwIjoxNzIwOTc2NzY3fQ.poUEqLjRQWDloQcf0j262flW9tuC5sHMIXAMg3iTYUMpB0Y3r0Xq1OqEdvTxtT9r',  # Replace with actual access token
                     'user-agent': 'Mobile-Android'
                 }).json()['url']
 
