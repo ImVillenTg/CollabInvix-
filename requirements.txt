@@ -9,6 +9,3 @@ ffmpeg
 ffprobe
 asyncio
 humanize
-Flask==2.2.2
-werkzeug==2.2.2
-gunicorn==20.1.0
