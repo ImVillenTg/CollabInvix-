@@ -142,7 +142,7 @@ async def account_login(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
             elif 'videos.classplusapp' in url or 'media-cdn.classplusapp' in url:
-             url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6NTA5MTAzNjYsIm9yZ0lkIjo0MDU0NzMsIm9yZ0NvZGUiOiJqY3d2ayIsIm9yZ05hbWUiOiJTdXJlIDYwIEd1cnVrdWwiLCJuYW1lIjoiUmFtcGFsIiwiZW1haWwiOiJzaGFsaW5pc2hhcm1hMTUwNjhAZ21haWwuY29tIiwibW9iaWxlIjoiOTE5NTIwMDM2ODM0IiwidHlwZSI6MSwiaXNEaXkiOnRydWUsImlzSW50ZXJuYXRpb25hbCI6MCwiZGVmYXVsdExhbmd1YWdlIjoiRU4iLCJjb3VudHJ5Q29kZSI6IklOIiwidGltZXpvbmUiOiJHTVQrNTozMCIsImNvdW50cnlJU08iOiI5MSIsImlzRGl5U3ViYWRtaW4iOjAsImlhdCI6MTcyMDM3MTk2NywiZXhwIjoxNzIwOTc2NzY3fQ.poUEqLjRQWDloQcf0j262flW9tuC5sHMIXAMg3iTYUMpB0Y3r0Xq1OqEdvTxtT9r', 'user-agent': 'Mobile-Android'}).json()['url']
+             url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9', 'user-agent': 'Mobile-Android'}).json()['url']
                  
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
@@ -164,7 +164,7 @@ async def account_login(bot: Client, m: Message):
             try: 
                 cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                cc2 = f'{str(count).zfill(3)}.{name1} [Audio File].mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc2 = f'{str(count).zfill(3)}.{name1}.mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url or ".pdf" in url:
                     thumb = thumb if thumb else None
                     try:
