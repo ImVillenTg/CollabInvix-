@@ -141,7 +141,7 @@ async def account_login(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
-            elif 'videos.classplusapp' in url or 'media-cdn.classplusapp' in url:
+            elif 'videos.classplusapp' in url or 'media-cdn.classplusapp' in url or 'media-cdn-a.classplusapp' in url or '.classplusapp.com' in url:
              url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9'}).json()['url']
                  
             elif '/master.mpd' in url:
