@@ -169,7 +169,7 @@ async def account_login(bot: Client, m: Message):
                     thumb = thumb if thumb else None
                     try:
                         ka = await helper.download(url, name)
-                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
+                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
                         await copy.copy(chat_id = -1001296608859)
                         count+=1
                         os.remove(ka) if os.path.exists(ka) else none
