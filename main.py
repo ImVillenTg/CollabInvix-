@@ -149,7 +149,7 @@ async def account_login(bot: Client, m: Message):
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace(".", " ").replace("pdf", " (PDF)").replace("pdf-2", " (PDF-2)").replace("'", "").replace("(perospero)", "REXODAS").strip()
-            name = f'By @RolexEmpire {name1[:90]}'
+            name = f'{name1[:90]}'
 
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
@@ -162,14 +162,14 @@ async def account_login(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try: 
-                cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc = f'{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc1 = f'{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc2 = f'{str(count).zfill(3)}.{name1}.mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url or ".pdf" in url:
                     thumb = thumb if thumb else None
                     try:
                         ka = await helper.download(url, name)
-                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
+                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
                         await copy.copy(chat_id = -1001296608859)
                         count+=1
                         os.remove(ka) if os.path.exists(ka) else none
