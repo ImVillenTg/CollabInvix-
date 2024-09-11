@@ -162,8 +162,8 @@ async def account_login(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try: 
-                cc = f'f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                cc1 = f'f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc2 = f'{str(count).zfill(3)}.{name1}.mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url or ".pdf" in url:
                     thumb = thumb if thumb else None
