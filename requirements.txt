@@ -1,8 +1,8 @@
 pyrogram
 tgcrypto
-requests==2.31.0
+requests
 pyromod
-#yt-dlp
+yt-dlp
 aiohttp
 aiofiles
 ffmpeg
