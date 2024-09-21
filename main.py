@@ -39,9 +39,9 @@ async def restart_handler(_, m):
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
-@bot.on_message(filters.command(["Pyro"]) & filters.user(ADMINS))
+@bot.on_message(filters.command(["txt"]) & filters.user(ADMINS))
 async def account_login(bot: Client, m: Message):
-    editable = await m.reply_text(f"**Hey [{m.from_user.first_name}](tg://user?id={m.from_user.id})\nSend txt file**")
+    editable = await m.reply_text(f"**Hello Bruh🔥 ! [{m.from_user.first_name}](tg://user?id={m.from_user.id})\nSend txt file**")
     input: Message = await bot.listen(editable.chat.id)
     if input.document:
         x = await input.download()
@@ -148,8 +148,8 @@ async def account_login(bot: Client, m: Message):
              id =  url.split("/")[-2]
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
 
-            name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace(".", " ").replace("pdf", " (PDF)").replace("pdf-2", " (PDF-2)").replace("'", "").replace("(perospero)", "").strip()
-            name = f'{name1[:90]}'
+            name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace(".", " ").replace("pdf", " (PDF)").replace("pdf-2", " (PDF-2)").replace("'", "").replace("(perospero)", "").replace("||", "").replace("|", "").replace("@", "").replace("#", "").strip()
+            name = f'By @RolexEmpire{name1[:90]}'
 
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
@@ -162,10 +162,10 @@ async def account_login(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:
-                cc = f"**Vid_Id 🎥 :** `{str(count).zfill(3)}`\n**Vid_Name :** `{name1}.mkv`\n**Batch_Name :** `{b_name}`\n**Uploaded By :** Admin"
-                cc1 = f"**Pdf_Id 📚:** `{str(count).zfill(3)}`\n**Pdf_Name :** `{name1}`\n**Batch_Name :** `{b_name}`\n**Uploaded By :** Admin"
-                #cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                #cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                #cc = f"**Vid_Id 🎥 :** `{str(count).zfill(3)}`\n**Vid_Name :** `{name1}.mkv`\n**Batch_Name :** `{b_name}`\n**Uploaded By :** Admin"
+                #cc1 = f"**Pdf_Id 📚:** `{str(count).zfill(3)}`\n**Pdf_Name :** `{name1}`\n**Batch_Name :** `{b_name}`\n**Uploaded By :** Admin"
+                cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc2 = f'{str(count).zfill(3)}.{name1}.mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url or ".pdf" in url:
                     thumb = thumb if thumb else None
