@@ -149,7 +149,7 @@ async def account_login(bot: Client, m: Message):
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("#", "").replace("@", "").replace("*", "").replace("https", "").replace("http", "").replace("_", " ").replace("_pdf", "").replace(".", " ").replace("pdf", " (PDF)").replace("pdf-2", " (PDF-2)").replace("'", "").replace("(perospero)", "").replace("||", "").replace("|", "").replace("@", "").replace("#", "").strip()
-            name = f'{name1[:90]}'
+            name = f'By @RolexEmpire {name1[:90]}'
 
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
@@ -171,7 +171,7 @@ async def account_login(bot: Client, m: Message):
                     thumb = thumb if thumb else None
                     try:
                         ka = await helper.download(url, name)
-                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
+                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
                         await copy.copy(chat_id = -1001296608859)
                         count+=1
                         os.remove(ka) if os.path.exists(ka) else none
