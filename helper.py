@@ -10,6 +10,7 @@ from config import LOG
 import aiohttp
 import tgcrypto
 import aiofiles
+import pikepdf
 from pyrogram.types import Message
 from pyrogram import Client, filters
 
