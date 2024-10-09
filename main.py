@@ -164,9 +164,9 @@ async def account_login(bot: Client, m: Message):
             try:
                 #cc = f"**Vid_Id 🎥 :** `{str(count).zfill(3)}`\n**Vid_Name :** `{name1}.mkv`\n**Batch_Name :** `{b_name}`\n**Uploaded By :** Admin"
                 #cc1 = f"**Pdf_Id 📚:** `{str(count).zfill(3)}`\n**Pdf_Name :** `{name1}`\n**Batch_Name :** `{b_name}`\n**Uploaded By :** Admin"
-                cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                cc2 = f'{str(count).zfill(3)}.{name1}.mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc = f'{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc1 = f'{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
+                cc2 = f'{name1}.mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 if "drive" in url or ".pdf" in url:
                     thumb = thumb if thumb else None
                     try:
