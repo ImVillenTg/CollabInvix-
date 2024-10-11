@@ -196,7 +196,7 @@ def download_pdf(pdf_url, pdf_key, pdf_path):
             print("Decrypted PDF saved to: {pdf_path}")
             return pdf_path
         else:
-            print(f"Failed to download the PDF file. HTTP status code: {
+            print("Failed to download the PDF file. HTTP status code: {
                   response.status_code}")
             return None
     except Exception as e:
