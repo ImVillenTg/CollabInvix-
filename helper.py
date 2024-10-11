@@ -193,7 +193,7 @@ def download_pdf(pdf_url, pdf_key, pdf_path):
             decrypted_pdf_data = decrypt_pdf_data(encrypted_pdf_data, pdf_key)
             with open(pdf_path, 'wb') as f:
                 f.write(decrypted_pdf_data)
-            print(f"Decrypted PDF saved to: {pdf_path}")
+            print("Decrypted PDF saved to: {pdf_path}")
             return pdf_path
         else:
             print(f"Failed to download the PDF file. HTTP status code: {
