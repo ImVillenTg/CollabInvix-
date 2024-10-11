@@ -10,7 +10,6 @@ from config import LOG
 import aiohttp
 import tgcrypto
 import aiofiles
-import pikepdf
 from pyrogram.types import Message
 from pyrogram import Client, filters
 
@@ -23,7 +22,6 @@ def duration(filename):
                             stdout=subprocess.PIPE,
                             stderr=subprocess.STDOUT)
     return float(result.stdout)
-    
 
 async def download(url, name):
     ka = f'{name}.pdf'
@@ -31,19 +29,10 @@ async def download(url, name):
         async with aiohttp.ClientSession() as session:
             async with session.get(url, allow_redirects=True) as resp:
                 if resp.status == 200:
-                    # Write the file asynchronously
-                    async with aiofiles.open(ka, mode='wb') as f:
-                        await f.write(await resp.read())
-
-        try:
-            # Attempt to open and decrypt the PDF
-            with pikepdf.open(ka, allow_overwriting_input=True) as pdf:
-                pdf.save(ka)  # Save the decrypted version
-                print("PDF Decrypted Successfully")
-        except pikepdf.PdfError as e:
-            print(f"PDF खोलने या सहेजने में असफल। त्रुटि: {e}")
-            return None
-        return ka  # Return the file name/path of the saved PDF
+                    f = await aiofiles.open(ka, mode='wb')
+                    await f.write(await resp.read())
+                    await f.close()  # Manually closing the file
+                    return ka
     except Exception as e:
         print("Asynchronous download failed, Now will try synchronously. Error:", e)
 
@@ -57,19 +46,9 @@ async def download(url, name):
             f.write(r.content)
             f.close()  # Manually closing the file
         print("Downloaded Synchronously:", ka)
-        try:
-            # Attempt to open and decrypt the PDF
-            with pikepdf.open(ka, allow_overwriting_input=True) as pdf:
-                pdf.save(ka)  # Save the decrypted version
-                print("PDF Decrypted Successfully")
-        except pikepdf.PdfError as e:
-            print(f"PDF खोलने या सहेजने में असफल। त्रुटि: {e}")
-            return None
-        return ka  # Return the file name/path of the saved PDF
+        return ka
     except Exception as e:
         print("Synchronous Download Failed. Error:", e)
-
-
 
 async def run(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -190,3 +169,36 @@ async def send_vid(bot: Client, m: Message, cc, filename, thumb, name):
     os.remove(f"{filename}.jpg")
     await reply.delete(True)
   # await prog.delete(True)
+
+def decrypt_pdf_data(pdf_data, key):
+    max_length = 28
+    data_length = len(pdf_data)
+    if data_length < 28:
+        max_length = data_length
+    for index in range(max_length):
+        current_byte = pdf_data[index]
+        if index <= len(key)-1:
+            decrypted_byte = current_byte ^ ord(key[index])
+        else:
+            decrypted_byte = current_byte ^ index
+        pdf_data[index] = decrypted_byte
+    return pdf_data
+
+
+def download_pdf(pdf_url, pdf_key, pdf_path):
+    try:
+        response = requests.get(pdf_url, verify=False)
+        if response.status_code == 200:
+            encrypted_pdf_data = bytearray(response.content)
+            decrypted_pdf_data = decrypt_pdf_data(encrypted_pdf_data, pdf_key)
+            with open(pdf_path, 'wb') as f:
+                f.write(decrypted_pdf_data)
+            print(f"Decrypted PDF saved to: {pdf_path}")
+            return pdf_path
+        else:
+            print(f"Failed to download the PDF file. HTTP status code: {
+                  response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
