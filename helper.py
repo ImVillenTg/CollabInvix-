@@ -10,6 +10,7 @@ from config import LOG
 import aiohttp
 import tgcrypto
 import aiofiles
+import pikepdf
 from pyrogram.types import Message
 from pyrogram import Client, filters
 
@@ -29,10 +30,19 @@ async def download(url, name):
         async with aiohttp.ClientSession() as session:
             async with session.get(url, allow_redirects=True) as resp:
                 if resp.status == 200:
-                    f = await aiofiles.open(ka, mode='wb')
-                    await f.write(await resp.read())
-                    await f.close()  # Manually closing the file
-                    return ka
+                    # Write the file asynchronously
+                    async with aiofiles.open(ka, mode='wb') as f:
+                        await f.write(await resp.read())
+
+        try:
+            # Attempt to open and decrypt the PDF
+            with pikepdf.open(ka, allow_overwriting_input=True) as pdf:
+                pdf.save(ka)  # Save the decrypted version
+                print("PDF Decrypted Successfully")
+        except pikepdf.PdfError as e:
+            print(f"PDF खोलने या सहेजने में असफल। त्रुटि: {e}")
+            return None
+        return ka  # Return the file name/path of the saved PDF
     except Exception as e:
         print("Asynchronous download failed, Now will try synchronously. Error:", e)
 
@@ -46,9 +56,19 @@ async def download(url, name):
             f.write(r.content)
             f.close()  # Manually closing the file
         print("Downloaded Synchronously:", ka)
-        return ka
+        try:
+            # Attempt to open and decrypt the PDF
+            with pikepdf.open(ka, allow_overwriting_input=True) as pdf:
+                pdf.save(ka)  # Save the decrypted version
+                print("PDF Decrypted Successfully")
+        except pikepdf.PdfError as e:
+            print(f"PDF खोलने या सहेजने में असफल। त्रुटि: {e}")
+            return None
+        return ka  # Return the file name/path of the saved PDF
     except Exception as e:
         print("Synchronous Download Failed. Error:", e)
+
+
 
 async def run(cmd):
     proc = await asyncio.create_subprocess_shell(
