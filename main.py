@@ -21,6 +21,7 @@ from config import *
 import sys
 import re
 import os
+from helper import download_pdf
 
 bot = Client("bot",
              bot_token= "7166620322:AAEahV7BIOMhoa8Uu_jE8-xeI2UI5exOYQc",
