@@ -169,7 +169,7 @@ async def account_login(bot: Client, m: Message):
                 
                 if "*" in url:
                     urlkey = url.split('*')
-                    pfile = download_pdf(pdf_url=urlkey[0], pdf_key=url[1], pdf_path=name)
+                    pfile = download_pdf(pdf_url=urlkey[0], pdf_key=url[1], pdf_path=f'{name}.pdf')
                     if pfile:
                         try:
                             copy = await bot.send_document(chat_id=m.chat.id, document=pfile, caption=cc1, thumb=thumb)
