@@ -173,7 +173,7 @@ async def account_login(bot: Client, m: Message):
                     if pfile:
                         try:
                             await bot.send_document(chat_id=m.chat.id, document=pfile, caption=cc1, thumb=thumb)
-                            await copy.copy(chat_id=-1001296608859)
+                            await copy.copy(chat_id = -1001296608859)
                             count += 1
                             os.remove(pfile) if os.path.exists(ka) else None
                             time.sleep(1)
