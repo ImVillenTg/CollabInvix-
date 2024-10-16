@@ -172,7 +172,7 @@ async def account_login(bot: Client, m: Message):
                     pfile = download_pdf(pdf_url=urlkey[0], pdf_key=url[1], pdf_path=name)
                     if pfile:
                         try:
-                            await bot.send_document(chat_id=m.chat.id, document=pfile, caption=cc1, thumb=thumb)
+                            copy = await bot.send_document(chat_id=m.chat.id, document=pfile, caption=cc1, thumb=thumb)
                             await copy.copy(chat_id = -1001296608859)
                             count += 1
                             os.remove(pfile) if os.path.exists(ka) else None
