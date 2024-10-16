@@ -165,21 +165,8 @@ async def account_login(bot: Client, m: Message):
                 cc = f'{str(count).zfill(3)}.{name1}.mp4\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc1 = f'{str(count).zfill(3)}.{name1}\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
                 cc2 = f'{str(count).zfill(3)}.{name1}.mp3\n\n**Batch Name :** {b_name}\n\n**Downloaded By :** {CR}'
-                if "drive" in url or ".pdf" in url:
-                    thumb = thumb if thumb else None
-                    try:
-                        ka = await helper.download(url, name)
-                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
-                        await copy.copy(chat_id = -1001296608859)
-                        count+=1
-                        os.remove(ka) if os.path.exists(ka) else none
-                        time.sleep(1)
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        continue
-                        
-                elif "*" in url:
+                
+                if "*" in url:
                     urlkey = url.split('*')
                     pfile = download_pdf(pdf_url=urlkey[0], pdf_key=url[1], pdf_path=name)
                     if pfile:
@@ -194,6 +181,20 @@ async def account_login(bot: Client, m: Message):
                             time.sleep(e.x)
                             continue        
 
+                elif "drive" in url or ".pdf" in url:
+                    thumb = thumb if thumb else None
+                    try:
+                        ka = await helper.download(url, name)
+                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1, thumb=thumb)
+                        await copy.copy(chat_id = -1001296608859)
+                        count+=1
+                        os.remove(ka) if os.path.exists(ka) else none
+                        time.sleep(1)
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        continue
+                      
                 elif ".mp3" in url:                 
                     try:
                         aud = await helper.download_mp3(url, name)
