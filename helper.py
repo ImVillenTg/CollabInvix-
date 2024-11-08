@@ -11,6 +11,7 @@ import aiohttp
 import tgcrypto
 import aiofiles
 import pikepdf
+import subprocess
 from pyrogram.types import Message
 from pyrogram import Client, filters
 
@@ -24,50 +25,28 @@ def duration(filename):
                             stderr=subprocess.STDOUT)
     return float(result.stdout)
 
-async def download(url, name):
+
+def download(url, name):
     ka = f'{name}.pdf'
+    
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url, allow_redirects=True) as resp:
-                if resp.status == 200:
-                    # Write the file asynchronously
-                    async with aiofiles.open(ka, mode='wb') as f:
-                        await f.write(await resp.read())
-
-        try:
-            # Attempt to open and decrypt the PDF
-            with pikepdf.open(ka, allow_overwriting_input=True) as pdf:
-                pdf.save(ka)  # Save the decrypted version
-                print("PDF Decrypted Successfully")
-        except pikepdf.PdfError as e:
-            print(f"PDF खोलने या सहेजने में असफल। त्रुटि: {e}")
-            return None
-        return ka  # Return the file name/path of the saved PDF
-    except Exception as e:
-        print("Asynchronous download failed, Now will try synchronously. Error:", e)
-
-    # Synchronous FallBack (Rexo)
-    try:
-        r = requests.get(url, allow_redirects=True)
-        if r.status_code != 200:
-            print("Error:", url)
-            return None
-        with open(ka, "wb") as f:
-            f.write(r.content)
-            f.close()  # Manually closing the file
-        print("Downloaded Synchronously:", ka)
-        try:
-            # Attempt to open and decrypt the PDF
-            with pikepdf.open(ka, allow_overwriting_input=True) as pdf:
-                pdf.save(ka)  # Save the decrypted version
-                print("PDF Decrypted Successfully")
-        except pikepdf.PdfError as e:
-            print(f"PDF खोलने या सहेजने में असफल। त्रुटि: {e}")
-            return None
-        return ka  # Return the file name/path of the saved PDF
-    except Exception as e:
-        print("Synchronous Download Failed. Error:", e)
-
+        # Download using aria2
+        result = subprocess.run(['aria2c', '-x', '16', '-o', ka, url], check=True)
+        if result.returncode == 0:
+            print("Downloaded with aria2:", ka)
+            try:
+                # Attempt to open and decrypt the PDF
+                with pikepdf.open(ka, allow_overwriting_input=True) as pdf:
+                    pdf.save(ka)  # Save the decrypted version
+                    print("PDF Decrypted Successfully")
+            except pikepdf.PdfError as e:
+                print(f"PDF खोलने या सहेजने में असफल। त्रुटि: {e}")
+                return None
+            return ka  # Return the file name/path of the saved PDF
+    except subprocess.CalledProcessError as e:
+        print("Aria2 Download Failed. Error:", e)
+    
+    return None
 
 
 async def run(cmd):
